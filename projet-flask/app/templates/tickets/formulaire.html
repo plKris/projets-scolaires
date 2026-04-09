@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Signaler un problème</h2>
+            {% if is_admin %}
+                <p class="text-muted">Créé par: Admin</p>
+            {% else %}
+                <p class="text-muted">Chambre {{ chambre.numero }}</p>
+            {% endif %}
+            
+            <form method="POST" class="mt-4">
+                {{ form.hidden_tag() }}
+                
+                {% if is_admin %}
+                <div class="mb-3">
+                    <label for="chambre_id" class="form-label">Sélectionner la chambre</label>
+                    <select name="chambre_id" id="chambre_id" class="form-select" required>
+                        <option value="">-- Choisir --</option>
+                        {% for c in chambres %}
+                            <option value="{{ c.id }}">{{ c.numero }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+                
+                <div class="mb-3">
+                    {{ form.titre.label }}
+                    {{ form.titre(class="form-control") }}
+                    {% if form.titre.errors %}
+                        <small class="text-danger">{{ form.titre.errors[0] }}</small>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.description.label }}
+                    {{ form.description(class="form-control", rows="5") }}
+                    {% if form.description.errors %}
+                        <small class="text-danger">{{ form.description.errors[0] }}</small>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.location.label }}
+                    {{ form.location(class="form-control") }}
+                    {% if form.location.errors %}
+                        <small class="text-danger">{{ form.location.errors[0] }}</small>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.priorite.label }}
+                    {{ form.priorite(class="form-select") }}
+                </div>
+                
+                <div class="d-flex gap-2">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <a href="{{ url_for('main.accueil') }}" class="btn btn-outline-secondary">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

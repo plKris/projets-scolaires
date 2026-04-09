@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Chambre {{ chambre.numero }}</h2>
+            <p class="text-muted">{{ chambre.localite }}</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ url_for('tickets.creer') }}" class="btn btn-primary">
+                + Signaler un problème
+            </a>
+        </div>
+    </div>
+
+    {% if tickets %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Problème</th>
+                    <th>Localisation</th>
+                    <th>Priorité</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr style="cursor: pointer;" onclick="window.location='{{ url_for('tickets.detail', ticket_id=ticket.id) }}'">
+                    <td>#{{ ticket.id }}</td>
+                    <td>{{ ticket.titre }}</td>
+                    <td>{{ ticket.location }}</td>
+                    <td>
+                        <span class="badge bg-{{ ticket.get_priority_badge_color() }}">
+                            {{ ticket.priorite }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge bg-{{ ticket.get_status_badge_color() }}">
+                            {{ ticket.statut }}
+                        </span>
+                    </td>
+                    <td>{{ ticket.date_creation.strftime('%d/%m/%Y') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center">
+        Aucun ticket signalé
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

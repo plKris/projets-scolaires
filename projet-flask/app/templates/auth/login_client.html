@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Accès Client</h2>
+                    <p class="text-center text-muted mb-4">Connectez-vous avec votre numéro de chambre et code d'accès</p>
+                    
+                    {% if current_user %}
+                        <div class="alert alert-info">
+                            Vous êtes connecté en tant que <strong>{{ current_user.nom_client }}</strong>
+                            <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-warning ms-2">Changer de compte</a>
+                        </div>
+                    {% endif %}
+                    
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.num_chambre.label(class="form-label") }}
+                            {% if form.num_chambre.errors %}
+                                {{ form.num_chambre(class="form-control is-invalid") }}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.num_chambre.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.num_chambre(class="form-control", placeholder="Ex: 101") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.code_acces.label(class="form-label") }}
+                            {% if form.code_acces.errors %}
+                                {{ form.code_acces(class="form-control is-invalid", type="password") }}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.code_acces.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.code_acces(class="form-control", type="password", placeholder="6 chiffres") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

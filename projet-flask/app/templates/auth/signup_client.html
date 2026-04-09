@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Inscription Client</h2>
+                    <p class="text-center text-muted mb-4">Créez votre compte client pour signaler des incidents</p>
+                    
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.nom_client.label(class="form-label") }}
+                            {% if form.nom_client.errors %}
+                                {{ form.nom_client(class="form-control is-invalid") }}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.nom_client.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.nom_client(class="form-control", placeholder="Votre nom") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.email.label(class="form-label") }}
+                            {% if form.email.errors %}
+                                {{ form.email(class="form-control is-invalid") }}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.email.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.email(class="form-control", placeholder="votre@email.com") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.num_chambre.label(class="form-label") }}
+                            {% if form.num_chambre.errors %}
+                                {{ form.num_chambre(class="form-control is-invalid") }}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.num_chambre.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.num_chambre(class="form-control", placeholder="Ex: 101") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.code_acces.label(class="form-label") }}
+                            <small class="text-muted d-block mb-1">Code fourni à votre arrivée</small>
+                            {% if form.code_acces.errors %}
+                                {{ form.code_acces(class="form-control is-invalid", type="password") }}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.code_acces.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.code_acces(class="form-control", type="password", placeholder="6 chiffres") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.password.label(class="form-label") }}
+                            <small class="text-muted d-block mb-1">Optionnel - pour sécuriser votre compte</small>
+                            {% if form.password.errors %}
+                                {{ form.password(class="form-control is-invalid", type="password") }}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.password.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.password(class="form-control", type="password", placeholder="Minimum 6 caractères") }}
+                            {% endif %}
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class="btn btn-primary btn-lg") }}
+                        </div>
+                    </form>
+                    
+                    <hr class="my-4">
+                    
+                    <p class="text-center">Déjà inscrit?</p>
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('auth.login_client') }}" class="btn btn-outline-primary">Se connecter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

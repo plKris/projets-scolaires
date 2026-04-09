@@ -1,0 +1,25 @@
+---
+name: Feature Request
+description: Proposer une nouvelle fonctionnalité
+labels: ["enhancement"]
+---
+
+## 📋 Description de la Fonctionnalité
+
+*Décrivez clairement la nouvelle fonctionnalité demandée*
+
+## 🎯 Problème Résolu
+
+*Quel problème cette fonctionnalité résout-elle?*
+
+## 💡 Solution Proposée
+
+*Décrivez comment cette fonctionnalité devrait fonctionner*
+
+## 🔄 Alternatives Considérées
+
+*Y a-t-il d'autres solutions?*
+
+## 📝 Contexte Additionnel
+
+*Avez-vous des mockups, des références ou du contexte?*

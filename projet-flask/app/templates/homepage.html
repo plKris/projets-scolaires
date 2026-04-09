@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center mb-5">🏖️ Village de Vacances</h1>
+            
+            <div class="card shadow-lg">
+                <div class="card-body text-center p-5">
+                    <h3 class="mb-4">Besoin de signaler un problème?</h3>
+                    <p class="text-muted mb-4">Connectez-vous avec votre numéro de chambre</p>
+                    
+                    <a href="{{ url_for('auth.login_client') }}" class="btn btn-primary btn-lg w-100 mb-3">
+                        🔑 Client
+                    </a>
+                    
+                    <hr>
+                    
+                    <p class="text-muted mb-3">Administrateur</p>
+                    
+                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#adminModal">
+                        🔐 Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Admin -->
+<div class="modal fade" id="adminModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Connexion Admin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('auth.admin_login') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Utilisateur</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Connexion</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

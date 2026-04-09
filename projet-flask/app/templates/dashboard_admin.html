@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Gestion des tickets</h2>
+    
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card" style="background-color: #007bff; color: white;">
+                <div class="card-body text-center">
+                    <h5 class="text-white">{{ total }}</h5>
+                    <p class="text-white mb-0">Total</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="background-color: #dc3545; color: white;">
+                <div class="card-body text-center">
+                    <h5 class="text-white">{{ ouverts }}</h5>
+                    <p class="text-white mb-0">Ouverts</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="background-color: #ffc107; color: white;">
+                <div class="card-body text-center">
+                    <h5 class="text-white">{{ en_cours }}</h5>
+                    <p class="text-white mb-0">En cours</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="background-color: #28a745; color: white;">
+                <div class="card-body text-center">
+                    <h5 class="text-white">{{ resolus }}</h5>
+                    <p class="text-white mb-0">Résolus</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Chambre</th>
+                    <th>Problème</th>
+                    <th>Priorité</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr style="cursor: pointer;" onclick="window.location='{{ url_for('tickets.detail', ticket_id=ticket.id) }}'">
+                    <td>#{{ ticket.id }}</td>
+                    <td><strong>{{ ticket.chambre.numero }}</strong></td>
+                    <td>{{ ticket.titre }}</td>
+                    <td>
+                        <span class="badge bg-{{ ticket.get_priority_badge_color() }}">
+                            {{ ticket.priorite }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge bg-{{ ticket.get_status_badge_color() }}">
+                            {{ ticket.statut }}
+                        </span>
+                    </td>
+                    <td>{{ ticket.date_creation.strftime('%d/%m/%Y') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

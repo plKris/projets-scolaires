@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des Tickets{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1><i class="fas fa-list"></i> Liste des Tickets</h1>
+        <a href="{{ url_for('tickets.nouveau') }}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Nouveau Ticket
+        </a>
+    </div>
+</div>
+
+<!-- Filtres -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card bg-light">
+            <div class="card-body">
+                <form method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="statut" class="form-label">Filtrer par Statut</label>
+                        <select class="form-select" id="statut" name="statut">
+                            <option value="">-- Tous les statuts --</option>
+                            <option value="Ouvert" {% if statut_filter == 'Ouvert' %}selected{% endif %}>Ouvert</option>
+                            <option value="En cours" {% if statut_filter == 'En cours' %}selected{% endif %}>En cours</option>
+                            <option value="Résolu" {% if statut_filter == 'Résolu' %}selected{% endif %}>Résolu</option>
+                            <option value="Fermé" {% if statut_filter == 'Fermé' %}selected{% endif %}>Fermé</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="priorite" class="form-label">Filtrer par Priorité</label>
+                        <select class="form-select" id="priorite" name="priorite">
+                            <option value="">-- Toutes les priorités --</option>
+                            <option value="Basse" {% if priorite_filter == 'Basse' %}selected{% endif %}>Basse</option>
+                            <option value="Normale" {% if priorite_filter == 'Normale' %}selected{% endif %}>Normale</option>
+                            <option value="Haute" {% if priorite_filter == 'Haute' %}selected{% endif %}>Haute</option>
+                            <option value="Urgente" {% if priorite_filter == 'Urgente' %}selected{% endif %}>Urgente</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-filter"></i> Filtrer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tableau des tickets -->
+<div class="row">
+    <div class="col-md-12">
+        {% if tickets.items %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Titre</th>
+                        <th>Localisation</th>
+                        <th>Statut</th>
+                        <th>Priorité</th>
+                        <th>Rapporteur</th>
+                        <th>Assigné à</th>
+                        <th>Créé le</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in tickets.items %}
+                    <tr style="cursor: pointer;" onclick="window.location='{{ url_for('tickets.detail', ticket_id=ticket.id) }}'">
+                        <td><strong>#{{ ticket.id }}</strong></td>
+                        <td>{{ ticket.titre[:40] }}{% if ticket.titre|length > 40 %}...{% endif %}</td>
+                        <td>{{ ticket.location }}</td>
+                        <td>
+                            <span class="badge badge-status bg-{{ ticket.get_status_badge_color() }}">
+                                {{ ticket.statut }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge badge-status bg-{{ ticket.get_priority_badge_color() }}">
+                                {{ ticket.priorite }}
+                            </span>
+                        </td>
+                        <td>{{ ticket.createur.nom_client if ticket.createur else 'N/A' }}</td>
+                        <td>
+                            {% if ticket.assignee %}
+                                <span class="badge bg-info">{{ ticket.assignee.username }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Non assigné</span>
+                            {% endif %}
+                        </td>
+                        <td><small>{{ ticket.date_creation.strftime('%d/%m/%Y') }}</small></td>
+                        <td onclick="event.stopPropagation();">
+                            {% if session.get('user_role') == 'admin' %}
+                            <a href="{{ url_for('tickets.update_status', ticket_id=ticket.id) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if tickets.pages > 1 %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if tickets.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('tickets.liste', page=tickets.prev_num, statut=statut_filter, priorite=priorite_filter) }}">
+                        Précédent
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for page_num in tickets.iter_pages() %}
+                    {% if page_num %}
+                        {% if page_num == tickets.page %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page_num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('tickets.liste', page=page_num, statut=statut_filter, priorite=priorite_filter) }}">
+                                {{ page_num }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if tickets.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('tickets.liste', page=tickets.next_num, statut=statut_filter, priorite=priorite_filter) }}">
+                        Suivant
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <div class="alert alert-info text-center py-4">
+            <i class="fas fa-inbox fa-2x mb-2"></i><br>
+            <strong>Aucun ticket trouvé</strong><br>
+            <a href="{{ url_for('tickets.nouveau') }}" class="btn btn-sm btn-primary mt-2">
+                Créer un nouveau ticket
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

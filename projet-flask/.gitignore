@@ -1,0 +1,89 @@
+# Environnement virtuel Python
+env/
+venv/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Fichiers compilés Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Flask
+instance/
+.webassets-cache
+.env
+
+# Logs
+*.log
+nohup.out
+*.log.*
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# pytest
+.pytest_cache/
+.cache/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Temporary files
+*.tmp
+*.bak
+*~
+.~*
+
+# OS specific
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Dependencies (uses requirements.txt)
+# Don't ignore requirements.txt but do ignore venv's lib
+
+# Environment specific
+.env.local
+.env.*.local
