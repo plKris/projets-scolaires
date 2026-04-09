@@ -6,7 +6,7 @@ Bienvenue dans cette collection de projets d'apprentissage ! Ce workspace contie
 
 ## 🗂️ Structure du Workspace
 
-Ce projet contient trois applications principales :
+Ce projet contient quatre applications principales :
 
 ### 1. 🎓 **MediatekFormation**
 **Une plateforme de formations vidéo avec gestion administrateur**
@@ -76,16 +76,41 @@ Ce projet contient trois applications principales :
 
 ---
 
+### 4. �️ **ProjetCVVEN**
+**Plateforme de gestion de réservations pour un Village de Vacances**
+
+- **Framework** : CodeIgniter 4
+- **Base de données** : MySQL/MariaDB
+- **Fonctionnalités** :
+  - 👤 Authentification et inscription utilisateur
+  - 🏡 Consultation des logements/bungalows disponibles
+  - 📋 Gestion des réservations (création, suivi, annulation)
+  - 🔑 Contrôle d'accès par rôles
+  - 💼 Espace utilisateur (profil et paramètres)
+  - 🛠️ Interface d'administration complète
+
+- **Architecture** :
+  - Interface responsive avec Bootstrap
+  - Icônes Font Awesome
+  - Gestion de sessions sécurisée
+  - Admin panel dédié
+
+📂 Dossier : [`ProjetCVVEN/`](ProjetCVVEN/)
+
+---
+
 ## 🛠️ Pile Technologique
 
 | Technologie | Projets | Version |
 |-------------|---------|---------|
-| **PHP** | MediatekFormation, Mes Voyages | 8.1+ |
+| **PHP** | MediatekFormation, Mes Voyages, ProjetCVVEN | 8.1+ |
 | **Symfony** | MediatekFormation, Mes Voyages | 6.4 |
+| **CodeIgniter** | ProjetCVVEN | 4 |
 | **Python** | Gestion Incidents | 3.10+ |
 | **Flask** | Gestion Incidents | 3.0 |
 | **Doctrine ORM** | MediatekFormation, Mes Voyages | 3.1+ |
 | **SQLAlchemy** | Gestion Incidents | 3.0+ |
+| **MySQL/MariaDB** | ProjetCVVEN | - |
 | **MongoDB** | Gestion Incidents | - |
 
 ---
@@ -110,6 +135,22 @@ php bin/console doctrine:migrations:migrate
 
 # Lancez le serveur de développement
 php bin/console server:run
+```
+
+### Pour ProjetCVVEN (CodeIgniter 4)
+
+```bash
+# Accédez au dossier
+cd ProjetCVVEN
+
+# Installez les dépendances
+composer install
+
+# Configurez votre fichier .env
+cp env .env
+
+# Lancez le serveur de développement
+php spark serve
 ```
 
 ### Pour le projet Flask
@@ -145,6 +186,11 @@ python app.py
 ### Gestion des Incidents
 - **Application** : http://localhost:5000/
 - **Port personnalisable** : Via variable d'environnement `FLASK_PORT`
+
+### ProjetCVVEN
+- **Application** : http://localhost:8000/ (après configuration)
+- **Admin** : http://localhost:8000/admin
+- **Configuration** : Via fichier `env` et `.env`
 
 ---
 
